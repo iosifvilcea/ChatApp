@@ -12,7 +12,7 @@
         android:name=".App">
 
         <activity
-            android:name=".sections.account.LoginActivity"
+            android:name=".sections.account.views.LoginActivity"
             android:screenOrientation="portrait"
             >
 

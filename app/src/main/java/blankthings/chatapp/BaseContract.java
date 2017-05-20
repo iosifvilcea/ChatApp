@@ -9,7 +9,7 @@ package blankthings.chatapp;
 public interface BaseContract {
 
 
-    interface BaseView<P extends BasePresenter> {
+    interface BaseView<P> {
 
         /**
          * @param presenter
