@@ -40,6 +40,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolder> {
     }
 
 
+    public void addMessage(ChatItem item) {
+        if (item == null) {
+            return;
+        }
+
+        messages.add(item);
+        notifyItemInserted(messages.size()-1);
+    }
+
+
     @Override
     public int getItemViewType(int position) {
         final boolean isMessageBeingSentOut = messages.get(position).isOutBound();

@@ -76,7 +76,7 @@ public class LoginActivity
     @Override
     protected void onResume() {
         super.onResume();
-        getSupportActionBar().setLogo(R.drawable.ic_chat_logo);
+        getSupportActionBar().setLogo(R.drawable.app_logo);
         setTitle(R.string.app_name);
     }
 

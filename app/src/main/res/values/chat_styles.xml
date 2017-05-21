@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <style name="InBoundChatBubble" parent="AppTheme">
+        <item name="android:layout_gravity">center|left</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">150dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:background">@drawable/chat_incoming_bubble_shape</item>
+    </style>
+
+
+    <style name="OutBoundChatBubble" parent="AppTheme">
+        <item name="android:layout_gravity">center|right</item>
+        <item name="android:layout_marginLeft">150dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:background">@drawable/chat_outgoing_bubble_shape</item>
+    </style>
+
+</resources>

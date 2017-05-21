@@ -24,6 +24,8 @@ public class ChatContract {
 
         void populateMessages(List<ChatItem> chatItems);
 
+        void populateMessage(ChatItem chatItem);
+
         void onMessageSubmit(String message);
 
     }

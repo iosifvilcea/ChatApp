@@ -2,11 +2,13 @@ package blankthings.chatapp.sections.chat.views;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.widget.FrameLayout;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.List;
@@ -16,8 +18,11 @@ import blankthings.chatapp.sections.chat.ChatContract;
 import blankthings.chatapp.sections.chat.ChatPresenterImpl;
 import blankthings.chatapp.sections.chats.ChatItem;
 import blankthings.chatapp.utilities.ToolbarController;
+import blankthings.chatapp.utilities.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.view.View.GONE;
 
 /**
  * Created by iosif on 5/20/17.
@@ -25,8 +30,17 @@ import butterknife.ButterKnife;
 
 public class ChatActivity extends AppCompatActivity implements ChatContract.ChatView {
 
-    @BindView(R.id.content)
-    FrameLayout content;
+    @BindView(R.id.chat_create_name_edit_text)
+    EditText nameEditText;
+
+    @BindView(R.id.chat_create_message_edit_text)
+    EditText messageEditText;
+
+    @BindView(R.id.chat_create_send_button)
+    FloatingActionButton sendButton;
+
+    @BindView(R.id.chat_activity_recycler)
+    RecyclerView recyclerView;
 
     private ChatAdapter chatAdapter;
     private ChatPresenterImpl presenter;
@@ -36,25 +50,17 @@ public class ChatActivity extends AppCompatActivity implements ChatContract.Chat
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.base_layout);
+        setContentView(R.layout.chat_activity);
 
         ButterKnife.bind(this);
         setupToolbar();
+        setupViews();
         setupRecyclerView();
         setupPresenter();
 
         if (savedInstanceState != null) {
             // TODO: 5/21/17
         }
-    }
-
-
-    private void setupToolbar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        final AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appBar);
-        toolbarController = new ToolbarController(this, toolbar, appBarLayout);
     }
 
 
@@ -71,10 +77,16 @@ public class ChatActivity extends AppCompatActivity implements ChatContract.Chat
     }
 
 
-    private void setupRecyclerView() {
-        final RecyclerView recyclerView = new RecyclerView(this);
-        content.addView(recyclerView);
+    private void setupToolbar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
+        final AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appBar);
+        toolbarController = new ToolbarController(this, toolbar, appBarLayout);
+    }
+
+
+    private void setupRecyclerView() {
         /** RecyclerView LayoutManager */
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -82,6 +94,22 @@ public class ChatActivity extends AppCompatActivity implements ChatContract.Chat
         /** RecyclerView Adapter */
         chatAdapter = new ChatAdapter();
         recyclerView.setAdapter(chatAdapter);
+    }
+
+
+    private void setupViews() {
+        nameEditText.setVisibility(GONE);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.hideKeyboard(v, getApplicationContext());
+                final String message = messageEditText.getText().toString();
+                messageEditText.setText(null);
+                if (presenter != null) {
+                    presenter.sendMessage(message);
+                }
+            }
+        });
     }
 
 
@@ -117,6 +145,12 @@ public class ChatActivity extends AppCompatActivity implements ChatContract.Chat
     @Override
     public void populateMessages(List<ChatItem> chatItems) {
         chatAdapter.setMessages(chatItems);
+    }
+
+
+    @Override
+    public void populateMessage(ChatItem chatItem) {
+        chatAdapter.addMessage(chatItem);
     }
 
 

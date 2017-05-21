@@ -15,6 +15,9 @@ import butterknife.ButterKnife;
 
 public class ChatViewHolder extends RecyclerView.ViewHolder {
 
+    @BindView(R.id.chat_item_message_date_text_view)
+    TextView dateTextView;
+
     @BindView(R.id.chat_item_message_text_view)
     TextView messageText;
 
@@ -26,6 +29,7 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
 
 
     public void bind(ChatItem chatItem) {
+        dateTextView.setText(chatItem.getDate());
         messageText.setText(chatItem.getMessage());
     }
 }

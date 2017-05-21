@@ -65,7 +65,7 @@ public class ChatCollectionActivity
     @Override
     protected void onResume() {
         super.onResume();
-        getSupportActionBar().setLogo(R.drawable.ic_chat_logo);
+        getSupportActionBar().setLogo(R.drawable.app_logo);
         setTitle(R.string.app_name);
         floatingActionButton.setVisibility(View.VISIBLE);
     }
@@ -111,7 +111,7 @@ public class ChatCollectionActivity
 
         /** ChatItem Divider */
         final DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL);
+                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         generateMockData();

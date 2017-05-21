@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import blankthings.chatapp.sections.chats.ChatItem;
+import blankthings.chatapp.utilities.Utils;
 
 /**
  * Created by iosif on 5/21/17.
@@ -45,6 +46,9 @@ public class ChatPresenterImpl implements ChatContract.ChatPresenter {
         view.startLoading();
 
         // TODO: 5/21/17
+
+        final ChatItem item = new ChatItem(0, "You", message, Utils.getTodaysFormattedDate(), true);
+        view.populateMessage(item);
     }
 
 
