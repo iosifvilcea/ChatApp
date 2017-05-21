@@ -11,9 +11,11 @@ public class AccountContract {
 
     public interface AccountPresenter extends BaseContract.BasePresenter<AccountView> {
 
+        /** Events */
         void loginButtonClicked(String email, String pass);
         void createButtonClicked(String email, String pass, String passConfirm, String name);
 
+        /** Actions */
         void createAccount();
         void signin();
 
@@ -21,9 +23,6 @@ public class AccountContract {
 
 
     public interface AccountView extends BaseContract.BaseView {
-
-        void startLoading();
-        void stopLoading();
 
         void showEmailError(String error);
         void showPassError(String error);
@@ -33,6 +32,8 @@ public class AccountContract {
 
         void showLoginView();
         void showCreateView();
+
+        void navigateToChats();
 
     }
 

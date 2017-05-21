@@ -12,6 +12,7 @@ import blankthings.chatapp.utilities.Utils;
 
 public class AccountPresenterImpl implements AccountContract.AccountPresenter {
 
+    public static final String TAG = AccountPresenterImpl.class.getSimpleName();
 
     private AccountContract.AccountView view;
 
@@ -103,6 +104,9 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
     @Override
     public void signin() {
         // TODO: 5/20/17 Make Request.
+
+        view.navigateToChats();
+        onDetach();
     }
 
 

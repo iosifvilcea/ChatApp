@@ -1,5 +1,6 @@
 package blankthings.chatapp.sections.account.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.design.widget.TextInputLayout;
@@ -8,10 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import blankthings.chatapp.R;
 import blankthings.chatapp.sections.account.AccountContract;
 import blankthings.chatapp.sections.account.AccountPresenterImpl;
+import blankthings.chatapp.sections.chats.views.ChatCollectionActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -100,6 +103,12 @@ public class LoginActivity
 
 
     @Override
+    public void showError(String error) {
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
     public void showEmailError(String error) {
         emailTextInput.setError(error);
         emailEditText.requestFocus();
@@ -156,6 +165,21 @@ public class LoginActivity
         } else {
             setupCreateStateViews();
         }
+    }
+
+
+    @Override
+    public void navigateToChats() {
+        final Intent intent = new Intent(this, ChatCollectionActivity.class);
+        final Bundle bundle = new Bundle();
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+
+    @Override
+    public void navigateBack() {
+        onBackPressed();
     }
 
 

@@ -11,7 +11,13 @@ public interface BaseContract {
 
     interface BaseView {
 
-        /** Compositional interface. */
+        void startLoading();
+
+        void stopLoading();
+
+        void showError(String error);
+
+        void navigateBack();
 
     }
 
