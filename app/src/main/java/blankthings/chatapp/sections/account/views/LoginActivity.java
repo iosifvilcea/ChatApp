@@ -23,6 +23,7 @@ public class LoginActivity
         extends AppCompatActivity
         implements AccountContract.AccountView {
 
+    public static final String TAG = LoginActivity.class.getSimpleName();
 
     private AccountContract.AccountPresenter presenter;
     private boolean isLoginState = true;
@@ -49,7 +50,6 @@ public class LoginActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
         ButterKnife.bind(this);
-
         presenter = new AccountPresenterImpl(this);
     }
 
@@ -168,21 +168,6 @@ public class LoginActivity
     }
 
 
-    @Override
-    public void navigateToChats() {
-        final Intent intent = new Intent(this, ChatCollectionActivity.class);
-        final Bundle bundle = new Bundle();
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
-
-    @Override
-    public void navigateBack() {
-        onBackPressed();
-    }
-
-
     private void setupLoginStateViews() {
         final int white = ContextCompat.getColor(this, android.R.color.white);
         final int accent = ContextCompat.getColor(this, R.color.colorAccent);
@@ -215,4 +200,20 @@ public class LoginActivity
         createButton.setTextColor(white);
         createButton.setBackgroundColor(accent);
     }
+
+
+    @Override
+    public void navigateToChats() {
+        final Intent intent = new Intent(this, ChatCollectionActivity.class);
+        final Bundle bundle = new Bundle();
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+
+    @Override
+    public void navigateBack() {
+        onBackPressed();
+    }
+
 }

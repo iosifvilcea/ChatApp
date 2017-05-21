@@ -28,7 +28,7 @@
             />
 
         <activity
-            android:name=".sections.chat.ChatActivity"
+            android:name=".sections.chat.views.ChatActivity"
             android:screenOrientation="portrait"
             />
 

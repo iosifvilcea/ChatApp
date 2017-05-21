@@ -12,15 +12,15 @@ public class ChatItem implements Parcelable {
     public static final String KEY = "CHAT_ITEM_KEY";
 
     private int id;
-    private String lastUser;
-    private String lastUserComment;
-    private String lastSent;
+    private String user;
+    private String message;
+    private String dateReceived;
 
-    public ChatItem(int id, String lastUser, String lastUserComment, String lastSent) {
+    public ChatItem(int id, String user, String message, String dateReceived) {
         this.id = id;
-        this.lastUser = lastUser;
-        this.lastUserComment = lastUserComment;
-        this.lastSent = lastSent;
+        this.user = user;
+        this.message = message;
+        this.dateReceived = dateReceived;
     }
 
 
@@ -29,18 +29,18 @@ public class ChatItem implements Parcelable {
     }
 
 
-    public String getLastUser() {
-        return lastUser;
+    public String getUser() {
+        return user;
     }
 
 
-    public String getLastUserComment() {
-        return lastUserComment;
+    public String getMessage() {
+        return message;
     }
 
 
-    public String getLastSent() {
-        return lastSent;
+    public String getDateReceived() {
+        return dateReceived;
     }
 
 
@@ -53,17 +53,17 @@ public class ChatItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
-        dest.writeString(this.lastUser);
-        dest.writeString(this.lastUserComment);
-        dest.writeString(this.lastSent);
+        dest.writeString(this.user);
+        dest.writeString(this.message);
+        dest.writeString(this.dateReceived);
     }
 
 
     protected ChatItem(Parcel in) {
         this.id = in.readInt();
-        this.lastUser = in.readString();
-        this.lastUserComment = in.readString();
-        this.lastSent = in.readString();
+        this.user = in.readString();
+        this.message = in.readString();
+        this.dateReceived = in.readString();
     }
 
 

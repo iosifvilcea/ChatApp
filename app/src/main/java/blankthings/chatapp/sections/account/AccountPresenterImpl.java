@@ -106,7 +106,6 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
         // TODO: 5/20/17 Make Request.
 
         view.navigateToChats();
-        onDetach();
     }
 
 
@@ -117,7 +116,5 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
 
 
     @Override
-    public void onDetach() {
-        view = null;
-    }
+    public void onDetach() {}
 }

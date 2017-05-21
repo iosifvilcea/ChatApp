@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="chat_create_name_hint">Enter Name</string>
+    <string name="chat_create_message_hint">New Message</string>
+
+</resources>

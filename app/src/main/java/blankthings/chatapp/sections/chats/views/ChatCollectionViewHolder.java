@@ -2,6 +2,7 @@ package blankthings.chatapp.sections.chats.views;
 
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -38,9 +39,9 @@ public class ChatCollectionViewHolder extends RecyclerView.ViewHolder {
             return;
         }
 
-        lastUserTextView.setText(chatItem.getLastUser());
-        lastUserCommentTextView.setText(chatItem.getLastUserComment());
-        lastSentDateTextView.setText(chatItem.getLastSent());
+        lastUserTextView.setText(chatItem.getUser());
+        lastUserCommentTextView.setText(chatItem.getMessage());
+        lastSentDateTextView.setText(chatItem.getDateReceived());
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

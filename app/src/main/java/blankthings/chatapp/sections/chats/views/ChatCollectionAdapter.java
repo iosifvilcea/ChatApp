@@ -34,8 +34,19 @@ public class ChatCollectionAdapter extends RecyclerView.Adapter<ChatCollectionVi
             return;
         }
 
+        this.chatItems.clear();
         this.chatItems.addAll(chatItems);
         notifyDataSetChanged();
+    }
+
+
+    public void addChatItem(ChatItem chatItem) {
+        if (chatItem == null) {
+            return;
+        }
+
+        this.chatItems.add(0, chatItem);
+        notifyItemInserted(0);
     }
 
 
@@ -44,7 +55,7 @@ public class ChatCollectionAdapter extends RecyclerView.Adapter<ChatCollectionVi
         final Context context = parent.getContext();
         final LayoutInflater inflater = LayoutInflater.from(context);
 
-        final View view = inflater.inflate(R.layout.chat_item_layout, parent, false);
+        final View view = inflater.inflate(R.layout.chat_item_preview_layout, parent, false);
         return new ChatCollectionViewHolder(view, onItemClickListener);
     }
 

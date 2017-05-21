@@ -1,22 +1,24 @@
 package blankthings.chatapp.sections.chats.views;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import blankthings.chatapp.R;
-import blankthings.chatapp.sections.chat.ChatActivity;
+import blankthings.chatapp.sections.chat.views.ChatActivity;
 import blankthings.chatapp.sections.chats.ChatCollectionContract;
 import blankthings.chatapp.sections.chats.ChatCollectionPresenterImpl;
 import blankthings.chatapp.sections.chats.ChatItem;
@@ -37,7 +39,7 @@ public class ChatCollectionActivity
     @BindView(R.id.content) FrameLayout content;
     @BindView(R.id.fab) FloatingActionButton floatingActionButton;
 
-    private Dialog dialog;
+    private AlertDialog dialog;
 
     private ChatCollectionAdapter chatsAdapter;
     private ChatCollectionPresenterImpl chatsPresenter;
@@ -79,6 +81,7 @@ public class ChatCollectionActivity
         generateMockData();
     }
 
+
     private void generateMockData() {
         List<ChatItem> list = new ArrayList<>();
         list.add(new ChatItem(0, "Joe", "Hey dude, what's up?", "Thurs, 26"));
@@ -90,11 +93,41 @@ public class ChatCollectionActivity
 
     @OnClick(R.id.fab)
     public void onFloatingButtonClick() {
-        dialog = new Dialog(this);
-        final TextView textView = new TextView(this);
-        textView.setText("HEY");
-        dialog.setContentView(textView);
+        generateCreateMessageDialog();
+    }
+
+
+    private void generateCreateMessageDialog() {
+        final LayoutInflater inflater = LayoutInflater.from(this);
+        final View content = inflater.inflate(R.layout.chat_create_dialog, null);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        dialog = builder
+                .setView(content)
+                .create();
+
         dialog.show();
+
+        setupDialog(content);
+    }
+
+
+    private void setupDialog(final View content) {
+        final EditText nameEditText = (EditText) content.findViewById(R.id.chat_create_name_edit_text);
+        final EditText msgEditText = (EditText) content.findViewById(R.id.chat_create_message_edit_text);
+
+        final View button = content.findViewById(R.id.chat_create_send_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String name = nameEditText.getText().toString();
+                final String message = msgEditText.getText().toString();
+                if (dialog != null) {
+                    dialog.dismiss();
+                    chatsPresenter.createChat(name, message);
+                }
+            }
+        });
     }
 
 
@@ -133,7 +166,13 @@ public class ChatCollectionActivity
 
 
     @Override
-    public void navigateToSelectedChat(ChatItem chatItem) {
+    public void addChat(ChatItem chatItem) {
+        chatsAdapter.addChatItem(chatItem);
+    }
+
+
+    @Override
+    public void navigateToSelectedChat(final ChatItem chatItem) {
         final Intent intent = new Intent(this, ChatActivity.class);
         final Bundle bundle = new Bundle();
         bundle.putParcelable(ChatItem.KEY, chatItem);
@@ -147,7 +186,7 @@ public class ChatCollectionActivity
     }
 
 
-    private ChatCollectionAdapter.OnChatItemClickListener onChatItemClickListener =
+    private final ChatCollectionAdapter.OnChatItemClickListener onChatItemClickListener =
             new ChatCollectionAdapter.OnChatItemClickListener() {
         @Override
         public void onChatItemClicked(ChatItem childItem) {

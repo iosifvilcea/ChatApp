@@ -44,9 +44,8 @@
         android:layout_width="@dimen/fab_size"
         android:layout_margin="@dimen/fab_margin"
         android:layout_gravity="bottom|right"
-        android:visibility="gone"
+        android:src="@drawable/ic_create_white"
         app:useCompatPadding="true"
-        app:layout_anchor="@id/toolbar"
         app:layout_anchorGravity="bottom|right|end"
         />
 

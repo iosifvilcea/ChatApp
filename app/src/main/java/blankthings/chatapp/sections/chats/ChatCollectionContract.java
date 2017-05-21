@@ -14,7 +14,7 @@ public class ChatCollectionContract {
 
         void fetchChats();
 
-        void createChat();
+        void createChat(String name, String message);
 
         void chatSelected(ChatItem chatItem);
 
@@ -24,6 +24,8 @@ public class ChatCollectionContract {
     public interface ChatCollectionView extends BaseContract.BaseView {
 
         void populateChats(List<ChatItem> chats);
+
+        void addChat(ChatItem chatItem);
 
         void navigateToSelectedChat(ChatItem chatItem);
 
