@@ -9,12 +9,9 @@ package blankthings.chatapp;
 public interface BaseContract {
 
 
-    interface BaseView<P> {
+    interface BaseView {
 
-        /**
-         * @param presenter
-         */
-        void setPresenter(P presenter);
+        /** Compositional interface. */
 
     }
 
@@ -31,6 +28,12 @@ public interface BaseContract {
          * Called when the view has been detached.
          */
         void onDetach();
+
+
+        /**
+         * Called after {@link #onAttach(BaseView)}
+         */
+        void start();
 
     }
 

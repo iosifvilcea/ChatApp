@@ -9,10 +9,10 @@ import blankthings.chatapp.BaseContract;
 public class AccountContract {
 
 
-    public interface AccountPresenter extends BaseContract.BasePresenter {
+    public interface AccountPresenter extends BaseContract.BasePresenter<AccountView> {
 
         void loginButtonClicked(String email, String pass);
-        void createButtonClicked(String email, String pass, String name);
+        void createButtonClicked(String email, String pass, String passConfirm, String name);
 
         void createAccount();
         void signin();
@@ -20,7 +20,7 @@ public class AccountContract {
     }
 
 
-    public interface AccountView extends BaseContract.BaseView<AccountPresenter> {
+    public interface AccountView extends BaseContract.BaseView {
 
         void startLoading();
         void stopLoading();
@@ -31,7 +31,7 @@ public class AccountContract {
         void showNameError(String error);
         void clearErrors();
 
-        void showEmailView();
+        void showLoginView();
         void showCreateView();
 
     }

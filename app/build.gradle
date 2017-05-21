@@ -52,6 +52,12 @@ dependencies {
     })
 
 
+    /** View injection library */
+    def BK_VERSION = '8.6.0'
+    compile "com.jakewharton:butterknife:${BK_VERSION}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${BK_VERSION}"
+
+
     /** Leak Canary Library for Memory Leaks */
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'

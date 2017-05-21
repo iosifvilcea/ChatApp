@@ -1,4 +1,4 @@
-package blankthings.chatapp.sections;
+package blankthings.chatapp.utilities;
 
 /**
  * Utils

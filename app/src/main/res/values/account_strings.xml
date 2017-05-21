@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="account_header">Welcome.</string>
+
+    <string name="account_field_name">Name</string>
+    <string name="account_field_email">Email</string>
+    <string name="account_field_pass">Password</string>
+    <string name="account_field_pass_confirm">Confirm Password</string>
+
+    <string name="account_button_sign_in">Sign In</string>
+    <string name="account_button_create">Create Account</string>
+
+    <string name="account_error_empty_name">Name cannot be empty.</string>
+    <string name="account_error_empty_email">Email cannot be empty.</string>
+    <string name="account_error_empty_pass">Password cannot be empty.</string>
+
+    <string name="account_error_invalid_email">Email is invalid.</string>
+    <string name="account_error_invalid_pass_length">Password must be longer than 6 characters.</string>
+    <string name="account_error_invalid_pass_match">Password does not match.</string>
+
+</resources>
