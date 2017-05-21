@@ -14,13 +14,16 @@ public class ChatItem implements Parcelable {
     private int id;
     private String user;
     private String message;
-    private String dateReceived;
+    private String date;
+    private boolean isOutBound;
 
-    public ChatItem(int id, String user, String message, String dateReceived) {
+
+    public ChatItem(int id, String user, String message, String date, boolean isOutBound) {
         this.id = id;
         this.user = user;
         this.message = message;
-        this.dateReceived = dateReceived;
+        this.date = date;
+        this.isOutBound = isOutBound;
     }
 
 
@@ -39,8 +42,13 @@ public class ChatItem implements Parcelable {
     }
 
 
-    public String getDateReceived() {
-        return dateReceived;
+    public String getDate() {
+        return date;
+    }
+
+
+    public boolean isOutBound() {
+        return isOutBound;
     }
 
 
@@ -55,7 +63,8 @@ public class ChatItem implements Parcelable {
         dest.writeInt(this.id);
         dest.writeString(this.user);
         dest.writeString(this.message);
-        dest.writeString(this.dateReceived);
+        dest.writeString(this.date);
+        dest.writeByte(this.isOutBound ? (byte) 1 : (byte) 0);
     }
 
 
@@ -63,12 +72,12 @@ public class ChatItem implements Parcelable {
         this.id = in.readInt();
         this.user = in.readString();
         this.message = in.readString();
-        this.dateReceived = in.readString();
+        this.date = in.readString();
+        this.isOutBound = in.readByte() != 0;
     }
 
 
-    public static final Parcelable.Creator<ChatItem> CREATOR =
-            new Parcelable.Creator<ChatItem>() {
+    public static final Creator<ChatItem> CREATOR = new Creator<ChatItem>() {
         @Override
         public ChatItem createFromParcel(Parcel source) {
             return new ChatItem(source);

@@ -18,11 +18,16 @@ import blankthings.chatapp.sections.chats.ChatItem;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolder> {
 
+    private final static int TYPE_OUTBOUND = 0;
+    private final static int TYPE_INBOUND = 1;
+
     private List<ChatItem> messages;
+
 
     public ChatAdapter() {
         messages = new ArrayList<>();
     }
+
 
     public void setMessages(List<ChatItem> items) {
         if (items == null || items.isEmpty()) {
@@ -36,11 +41,29 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolder> {
 
 
     @Override
+    public int getItemViewType(int position) {
+        final boolean isMessageBeingSentOut = messages.get(position).isOutBound();
+        return (isMessageBeingSentOut) ? TYPE_OUTBOUND : TYPE_INBOUND;
+    }
+
+
+    @Override
     public ChatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final Context context = parent.getContext();
         final LayoutInflater inflater = LayoutInflater.from(context);
 
-        final View view = inflater.inflate(R.layout.chat_item_layout, parent, false);
+        final View view;
+        switch (viewType) {
+            case TYPE_OUTBOUND:
+                view = inflater.inflate(R.layout.chat_item_outgoing_layout, parent, false);
+                break;
+
+            case TYPE_INBOUND:
+            default:
+                view = inflater.inflate(R.layout.chat_item_incoming_layout, parent, false);
+                break;
+        }
+
         return new ChatViewHolder(view);
     }
 

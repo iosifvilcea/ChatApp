@@ -45,6 +45,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:layout_gravity="bottom|right"
         android:src="@drawable/ic_create_white"
+        android:visibility="gone"
         app:useCompatPadding="true"
         app:layout_anchorGravity="bottom|right|end"
         />

@@ -46,7 +46,7 @@ public class ChatCollectionPresenterImpl
     public void createChat(final String name, final String message) {
         // TODO: 5/21/17 create chat request.
 
-        final ChatItem chatItem = new ChatItem(0, name, message, getTodaysFormattedDate());
+        final ChatItem chatItem = new ChatItem(0, name, message, getTodaysFormattedDate(), true);
         view.addChat(chatItem);
     }
 

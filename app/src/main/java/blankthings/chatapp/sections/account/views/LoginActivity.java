@@ -3,18 +3,23 @@ package blankthings.chatapp.sections.account.views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import blankthings.chatapp.R;
 import blankthings.chatapp.sections.account.AccountContract;
 import blankthings.chatapp.sections.account.AccountPresenterImpl;
 import blankthings.chatapp.sections.chats.views.ChatCollectionActivity;
+import blankthings.chatapp.utilities.ToolbarController;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,7 +32,6 @@ public class LoginActivity
 
     private AccountContract.AccountPresenter presenter;
     private boolean isLoginState = true;
-
 
     @BindView(R.id.account_name_text_input) TextInputLayout nameTextInput;
     @BindView(R.id.account_name_edit_text) EditText nameEditText;
@@ -45,12 +49,43 @@ public class LoginActivity
     @BindView(R.id.account_submit_button) Button loginButton;
 
 
+    public ToolbarController toolbarController;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.base_layout);
+        setupToolbar();
+        setupView();
         ButterKnife.bind(this);
         presenter = new AccountPresenterImpl(this);
+    }
+
+
+    private void setupToolbar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        final AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appBar);
+        toolbarController = new ToolbarController(this, toolbar, appBarLayout);
+        toolbarController.enableToolbarScroll(false);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getSupportActionBar().setLogo(R.drawable.ic_chat_logo);
+        setTitle(R.string.app_name);
+    }
+
+
+    private void setupView() {
+        final FrameLayout container = (FrameLayout) findViewById(R.id.content);
+        final LayoutInflater inflater = LayoutInflater.from(this);
+        final View contentView = inflater.inflate(R.layout.login_activity, null);
+        container.addView(contentView);
     }
 
 

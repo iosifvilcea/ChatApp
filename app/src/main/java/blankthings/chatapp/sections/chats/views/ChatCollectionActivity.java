@@ -2,12 +2,14 @@ package blankthings.chatapp.sections.chats.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -22,6 +24,7 @@ import blankthings.chatapp.sections.chat.views.ChatActivity;
 import blankthings.chatapp.sections.chats.ChatCollectionContract;
 import blankthings.chatapp.sections.chats.ChatCollectionPresenterImpl;
 import blankthings.chatapp.sections.chats.ChatItem;
+import blankthings.chatapp.utilities.ToolbarController;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -44,6 +47,8 @@ public class ChatCollectionActivity
     private ChatCollectionAdapter chatsAdapter;
     private ChatCollectionPresenterImpl chatsPresenter;
 
+    public ToolbarController toolbarController;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +56,39 @@ public class ChatCollectionActivity
         setContentView(R.layout.base_layout);
 
         ButterKnife.bind(this);
+        setupToolbar();
         setupRecyclerView();
         setupPresenter();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getSupportActionBar().setLogo(R.drawable.ic_chat_logo);
+        setTitle(R.string.app_name);
+        floatingActionButton.setVisibility(View.VISIBLE);
+    }
+
+
+    @Override
+    protected void onPause() {
+        floatingActionButton.setVisibility(View.GONE);
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+
+        super.onPause();
+    }
+
+
+    private void setupToolbar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        final AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appBar);
+        toolbarController = new ToolbarController(this, toolbar, appBarLayout);
+        toolbarController.enableToolbarScroll(false);
     }
 
 
@@ -84,9 +120,9 @@ public class ChatCollectionActivity
 
     private void generateMockData() {
         List<ChatItem> list = new ArrayList<>();
-        list.add(new ChatItem(0, "Joe", "Hey dude, what's up?", "Thurs, 26"));
-        list.add(new ChatItem(1, "Mom", "ok, see you soon!", "Thurs, 26"));
-        list.add(new ChatItem(2, "Jen", "Hahha", "Friday, 27"));
+        list.add(new ChatItem(0, "Joe", "Hey dude, what's up?", "Thurs, 26", true));
+        list.add(new ChatItem(1, "Mom", "ok, see you soon!", "Thurs, 26", false));
+        list.add(new ChatItem(2, "Jen", "Hahha", "Friday, 27", true));
         chatsAdapter.setChatItems(list);
     }
 
@@ -144,16 +180,6 @@ public class ChatCollectionActivity
 
 
     @Override
-    protected void onPause() {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
-        }
-
-        super.onPause();
-    }
-
-
-    @Override
     public void showError(String error) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
@@ -173,10 +199,11 @@ public class ChatCollectionActivity
 
     @Override
     public void navigateToSelectedChat(final ChatItem chatItem) {
+        floatingActionButton.setVisibility(View.GONE);
+
         final Intent intent = new Intent(this, ChatActivity.class);
-        final Bundle bundle = new Bundle();
-        bundle.putParcelable(ChatItem.KEY, chatItem);
-        intent.putExtras(bundle);
+        intent.putExtra(ChatItem.KEY, chatItem);
+        startActivity(intent);
     }
 
 

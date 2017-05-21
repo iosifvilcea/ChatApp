@@ -1,9 +1,11 @@
 package blankthings.chatapp.sections.chat.views;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -13,6 +15,7 @@ import blankthings.chatapp.R;
 import blankthings.chatapp.sections.chat.ChatContract;
 import blankthings.chatapp.sections.chat.ChatPresenterImpl;
 import blankthings.chatapp.sections.chats.ChatItem;
+import blankthings.chatapp.utilities.ToolbarController;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -27,6 +30,8 @@ public class ChatActivity extends AppCompatActivity implements ChatContract.Chat
 
     private ChatAdapter chatAdapter;
     private ChatPresenterImpl presenter;
+    public ToolbarController toolbarController;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +39,35 @@ public class ChatActivity extends AppCompatActivity implements ChatContract.Chat
         setContentView(R.layout.base_layout);
 
         ButterKnife.bind(this);
+        setupToolbar();
         setupRecyclerView();
         setupPresenter();
+
+        if (savedInstanceState != null) {
+            // TODO: 5/21/17
+        }
+    }
+
+
+    private void setupToolbar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        final AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appBar);
+        toolbarController = new ToolbarController(this, toolbar, appBarLayout);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        toolbarController.enableToolbarScroll(false);
+        toolbarController.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        final ChatItem chatItem = getIntent().getParcelableExtra(ChatItem.KEY);
+        if (chatItem != null) {
+            setTitle(chatItem.getUser());
+        }
     }
 
 
