@@ -259,6 +259,7 @@ public class LoginActivity
     public void navigateToChats(Profile profile) {
         final Intent intent = new Intent(this, ChatCollectionActivity.class);
         final Bundle bundle = new Bundle();
+        bundle.putParcelable(Profile.KEY, profile);
         intent.putExtras(bundle);
         startActivity(intent);
     }

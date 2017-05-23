@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -47,7 +48,16 @@ public class ApiService {
 
     public void getLogin(final String email, final String password, final Callback<AccountData> callback) {
         final String body = String.format("{'email':'%s','password':'%s'}", email, password);
-        final Call<AccountData> loginCall = make().getLogin(body);
+        final Call<AccountData> loginCall = make().login(body);
         loginCall.enqueue(callback);
+    }
+
+
+    public void logout(final String auth) {
+        make().logout(auth)
+                .enqueue(new Callback<Void>() {
+            @Override public void onResponse(Call<Void> call, Response<Void> response) {}
+            @Override public void onFailure(Call<Void> call, Throwable t) {}
+        });
     }
 }

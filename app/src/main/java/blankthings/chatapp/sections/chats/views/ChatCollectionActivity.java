@@ -11,6 +11,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -24,6 +27,7 @@ import blankthings.chatapp.sections.chat.views.ChatActivity;
 import blankthings.chatapp.sections.chats.ChatCollectionContract;
 import blankthings.chatapp.sections.chats.ChatCollectionPresenterImpl;
 import blankthings.chatapp.sections.chats.ChatItem;
+import blankthings.chatapp.sections.profile.Profile;
 import blankthings.chatapp.utilities.ToolbarController;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,6 +67,26 @@ public class ChatCollectionActivity
 
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        final MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout_menu_item:
+                chatsPresenter.logoutClicked();
+                break;
+        }
+
+        return true;
+    }
+
+
+    @Override
     protected void onResume() {
         super.onResume();
         getSupportActionBar().setLogo(R.drawable.app_logo);
@@ -93,7 +117,10 @@ public class ChatCollectionActivity
 
 
     private void setupPresenter() {
-        chatsPresenter = new ChatCollectionPresenterImpl(this);
+        final Bundle bundle = getIntent().getExtras();
+        Profile profile = (Profile) bundle.get(Profile.KEY);
+
+        chatsPresenter = new ChatCollectionPresenterImpl(this, profile);
     }
 
 

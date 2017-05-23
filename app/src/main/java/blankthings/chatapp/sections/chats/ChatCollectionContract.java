@@ -18,6 +18,8 @@ public class ChatCollectionContract {
 
         void chatSelected(ChatItem chatItem);
 
+        void logoutClicked();
+
     }
 
 

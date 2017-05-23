@@ -9,20 +9,23 @@ import android.os.Parcelable;
 
 public class Profile implements Parcelable {
 
+    public static final String KEY = "KEY";
+
     private int id;
     private String name;
     private String email;
-    private String pass;
 
+    /** Stored here for convenience */
+    private String auth;
 
     private Profile() {}
 
 
-    public Profile(int id, String name, String email, String pass) {
+    public Profile(int id, String name, String email, String auth) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.pass = pass;
+        this.auth = auth;
     }
 
 
@@ -30,7 +33,7 @@ public class Profile implements Parcelable {
         id = profile.getId();
         name = profile.getName();
         email = profile.getEmail();
-        pass = profile.getPass();
+        auth =profile.getAuth();
     }
 
 
@@ -50,8 +53,8 @@ public class Profile implements Parcelable {
     }
 
 
-    public String getPass() {
-        return pass;
+    public String getAuth() {
+        return auth;
     }
 
 
@@ -63,23 +66,22 @@ public class Profile implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.auth);
         dest.writeInt(this.id);
         dest.writeString(this.name);
         dest.writeString(this.email);
-        dest.writeString(this.pass);
     }
 
 
     protected Profile(Parcel in) {
+        this.auth = in.readString();
         this.id = in.readInt();
         this.name = in.readString();
         this.email = in.readString();
-        this.pass = in.readString();
     }
 
 
-    public static final Parcelable.Creator<Profile> CREATOR =
-            new Parcelable.Creator<Profile>() {
+    public static final Creator<Profile> CREATOR = new Creator<Profile>() {
         @Override
         public Profile createFromParcel(Parcel source) {
             return new Profile(source);

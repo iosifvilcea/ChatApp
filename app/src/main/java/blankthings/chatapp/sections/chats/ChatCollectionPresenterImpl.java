@@ -1,5 +1,7 @@
 package blankthings.chatapp.sections.chats;
 
+import blankthings.chatapp.api.ApiService;
+import blankthings.chatapp.sections.profile.Profile;
 import blankthings.chatapp.utilities.Utils;
 
 /**
@@ -10,16 +12,22 @@ public class ChatCollectionPresenterImpl
         implements ChatCollectionContract.ChatCollectionPresenter {
 
     private ChatCollectionContract.ChatCollectionView view;
+    private ApiService apiService;
+    private Profile profile;
 
 
-    public ChatCollectionPresenterImpl(ChatCollectionContract.ChatCollectionView view) {
+    public ChatCollectionPresenterImpl(final ChatCollectionContract.ChatCollectionView view,
+                                       final Profile profile) {
+
+        apiService = new ApiService();
+        this.profile = profile;
         onAttach(view);
         start();
     }
 
 
     @Override
-    public void onAttach(ChatCollectionContract.ChatCollectionView view) {
+    public void onAttach(final ChatCollectionContract.ChatCollectionView view) {
         this.view = Utils.checkNotNull(view);
     }
 
@@ -37,6 +45,13 @@ public class ChatCollectionPresenterImpl
     @Override
     public void fetchChats() {
         view.startLoading();
+    }
+
+
+    @Override
+    public void logoutClicked() {
+        apiService.logout(profile.getAuth());
+        view.navigateBack();
     }
 
 

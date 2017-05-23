@@ -19,7 +19,6 @@ public class AccountContract {
         /** Actions */
         void createAccount(String email, String pass, String name);
         void signin(String email, String password);
-
     }
 
 

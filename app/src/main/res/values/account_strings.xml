@@ -10,6 +10,7 @@
 
     <string name="account_button_sign_in">Sign In</string>
     <string name="account_button_create">Create Account</string>
+    <string name="account_button_sign_out">Sign Out</string>
 
     <string name="account_error_empty_name">Name cannot be empty.</string>
     <string name="account_error_empty_email">Email cannot be empty.</string>

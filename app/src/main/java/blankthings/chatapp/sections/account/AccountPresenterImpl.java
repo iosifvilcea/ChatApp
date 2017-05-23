@@ -1,6 +1,7 @@
 package blankthings.chatapp.sections.account;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.regex.Pattern;
 
@@ -8,6 +9,7 @@ import blankthings.chatapp.api.AccountData;
 import blankthings.chatapp.api.ApiService;
 import blankthings.chatapp.sections.profile.Profile;
 import blankthings.chatapp.utilities.Utils;
+import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,6 +25,7 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
     private AccountContract.AccountView view;
 
     private ApiService apiService;
+    private Profile profile;
 
     public AccountPresenterImpl(final AccountContract.AccountView accountView) {
         apiService = new ApiService();
@@ -107,7 +110,6 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
     @Override
     public void createAccount(String email, String pass, String name) {
         view.startLoading();
-
     }
 
 
@@ -130,25 +132,36 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
 
     /**
      * Signin Callback
-     *
      */
     private Callback<AccountData> signinCallback = new Callback<AccountData>() {
+
         @Override
         public void onResponse(Call<AccountData> call, Response<AccountData> response) {
             view.stopLoading();
+
+            final String authorization = getAuthorization(response);
+            Log.e(TAG, authorization);
 
             final AccountData accountData = response.body();
             final int id = accountData.getId();
             final String email = accountData.getEmail();
             final String name = accountData.getName();
 
-            view.navigateToChats(new Profile(id, name, email, ""));
+            profile = new Profile(id, name, email, authorization);
+            view.navigateToChats(profile);
         }
+
 
         @Override
         public void onFailure(Call<AccountData> call, Throwable t) {
             view.stopLoading();
             view.showError("Oh no! We're unable to login at this time.");
+        }
+
+
+        String getAuthorization(Response<AccountData> response) {
+            Headers headers = response.headers();
+            return headers.get("Authorization");
         }
     };
 }
