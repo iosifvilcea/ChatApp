@@ -1,7 +1,6 @@
 package blankthings.chatapp.sections.account;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.regex.Pattern;
 
@@ -139,13 +138,11 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
         public void onResponse(Call<AccountData> call, Response<AccountData> response) {
             view.stopLoading();
 
-            final String authorization = getAuthorization(response);
-            Log.e(TAG, authorization);
-
             final AccountData accountData = response.body();
             final int id = accountData.getId();
             final String email = accountData.getEmail();
             final String name = accountData.getName();
+            final String authorization = getAuthorization(response);
 
             profile = new Profile(id, name, email, authorization);
             view.navigateToChats(profile);

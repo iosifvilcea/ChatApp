@@ -2,6 +2,12 @@ package blankthings.chatapp.api;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
+
+import com.google.gson.Gson;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,6 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ApiService {
 
+    private Gson gson;
     private Endpoints endpoints;
     private Retrofit retrofit;
 
@@ -27,6 +34,8 @@ public class ApiService {
 
 
     public ApiService(@Nullable final String url) {
+        gson = new Gson();
+
         String baseUrl = Endpoints.BASE_URL;
         if (!TextUtils.isEmpty(url)) {
             baseUrl = url;
@@ -47,7 +56,11 @@ public class ApiService {
 
 
     public void getLogin(final String email, final String password, final Callback<AccountData> callback) {
-        final String body = String.format("{'email':'%s','password':'%s'}", email, password);
+        final Map<String, String> map = new HashMap<>();
+        map.put("email", email);
+        map.put("password", password);
+        final String body = gson.toJson(map);
+
         final Call<AccountData> loginCall = make().login(body);
         loginCall.enqueue(callback);
     }
