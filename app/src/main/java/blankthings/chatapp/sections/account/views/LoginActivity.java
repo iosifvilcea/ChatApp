@@ -21,6 +21,7 @@ import blankthings.chatapp.sections.account.AccountPresenterImpl;
 import blankthings.chatapp.sections.chats.views.ChatCollectionActivity;
 import blankthings.chatapp.sections.profile.Profile;
 import blankthings.chatapp.utilities.ToolbarController;
+import blankthings.chatapp.utilities.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -123,6 +124,7 @@ public class LoginActivity
 
     @OnClick(R.id.account_submit_button)
     public void onSignInClicked() {
+        Utils.hideKeyboard(this);
         if (isLoginState) {
             presenter.loginButtonClicked(
                     emailEditText.getText().toString(),
