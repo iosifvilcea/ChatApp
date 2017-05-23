@@ -19,6 +19,7 @@ import blankthings.chatapp.R;
 import blankthings.chatapp.sections.account.AccountContract;
 import blankthings.chatapp.sections.account.AccountPresenterImpl;
 import blankthings.chatapp.sections.chats.views.ChatCollectionActivity;
+import blankthings.chatapp.sections.profile.Profile;
 import blankthings.chatapp.utilities.ToolbarController;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +33,8 @@ public class LoginActivity
 
     private AccountContract.AccountPresenter presenter;
     private boolean isLoginState = true;
+
+    private View loadingView;
 
     @BindView(R.id.account_name_text_input) TextInputLayout nameTextInput;
     @BindView(R.id.account_name_edit_text) EditText nameEditText;
@@ -57,7 +60,7 @@ public class LoginActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_layout);
         setupToolbar();
-        setupView();
+        setupViews();
         ButterKnife.bind(this);
         presenter = new AccountPresenterImpl(this);
     }
@@ -81,11 +84,24 @@ public class LoginActivity
     }
 
 
-    private void setupView() {
+    private void setupViews() {
         final FrameLayout container = (FrameLayout) findViewById(R.id.content);
         final LayoutInflater inflater = LayoutInflater.from(this);
-        final View contentView = inflater.inflate(R.layout.login_activity, null);
-        container.addView(contentView);
+        inflater.inflate(R.layout.login_activity, container);
+
+        loadingView = inflater.inflate(R.layout.loading_layout, null);
+        container.addView(loadingView);
+
+        loadingView.setVisibility(View.GONE);
+        loadingView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /**
+                 * Prevents user from interacting with the rest of the app
+                 *    when loading view is visible.
+                 */
+            }
+        });
     }
 
 
@@ -127,13 +143,13 @@ public class LoginActivity
 
     @Override
     public void startLoading() {
-        // TODO: 5/20/17 - add loading logic.
+        loadingView.setVisibility(View.VISIBLE);
     }
 
 
     @Override
     public void stopLoading() {
-        // TODO: 5/20/17 - add loading logic.
+        loadingView.setVisibility(View.GONE);
     }
 
 
@@ -238,7 +254,7 @@ public class LoginActivity
 
 
     @Override
-    public void navigateToChats() {
+    public void navigateToChats(Profile profile) {
         final Intent intent = new Intent(this, ChatCollectionActivity.class);
         final Bundle bundle = new Bundle();
         intent.putExtras(bundle);

@@ -1,6 +1,7 @@
 package blankthings.chatapp.sections.account;
 
 import blankthings.chatapp.BaseContract;
+import blankthings.chatapp.sections.profile.Profile;
 
 /**
  * Created by iosif on 5/20/17.
@@ -16,8 +17,8 @@ public class AccountContract {
         void createButtonClicked(String email, String pass, String passConfirm, String name);
 
         /** Actions */
-        void createAccount();
-        void signin();
+        void createAccount(String email, String pass, String name);
+        void signin(String email, String password);
 
     }
 
@@ -33,7 +34,7 @@ public class AccountContract {
         void showLoginView();
         void showCreateView();
 
-        void navigateToChats();
+        void navigateToChats(Profile profile);
 
     }
 

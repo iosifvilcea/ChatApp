@@ -4,7 +4,13 @@ import android.text.TextUtils;
 
 import java.util.regex.Pattern;
 
+import blankthings.chatapp.api.AccountData;
+import blankthings.chatapp.api.ApiService;
+import blankthings.chatapp.sections.profile.Profile;
 import blankthings.chatapp.utilities.Utils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by iosif on 5/20/17.
@@ -16,11 +22,15 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
 
     private AccountContract.AccountView view;
 
+    private ApiService apiService;
 
     public AccountPresenterImpl(final AccountContract.AccountView accountView) {
+        apiService = new ApiService();
+
         onAttach(accountView);
         start();
     }
+
 
     @Override
     public void start() {
@@ -33,7 +43,7 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
         view.clearErrors();
         final boolean isValid = validateLogin(email, pass);
         if (isValid) {
-            signin();
+            signin(email, pass);
         }
     }
 
@@ -50,7 +60,6 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
             final String err = "Please enter a valid address.";
             view.showEmailError(err);
             return false;
-
         }
 
         if (TextUtils.isEmpty(pass)) {
@@ -67,7 +76,7 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
     public void createButtonClicked(final String email, final String pass, final String passConfirm, final String name) {
         final boolean isValid = validateCreateAccount(email, pass, passConfirm, name);
         if (isValid) {
-            createAccount();
+            createAccount(email, pass, name);
         }
     }
 
@@ -96,16 +105,16 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
 
 
     @Override
-    public void createAccount() {
-        // TODO: 5/20/17 Make Request.
+    public void createAccount(String email, String pass, String name) {
+        view.startLoading();
+
     }
 
 
     @Override
-    public void signin() {
-        // TODO: 5/20/17 Make Request.
-
-        view.navigateToChats();
+    public void signin(final String email, final String password) {
+        view.startLoading();
+        apiService.getLogin(email, password, signinCallback);
     }
 
 
@@ -117,4 +126,29 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
 
     @Override
     public void onDetach() {}
+
+
+    /**
+     * Signin Callback
+     *
+     */
+    private Callback<AccountData> signinCallback = new Callback<AccountData>() {
+        @Override
+        public void onResponse(Call<AccountData> call, Response<AccountData> response) {
+            view.stopLoading();
+
+            final AccountData accountData = response.body();
+            final int id = accountData.getId();
+            final String email = accountData.getEmail();
+            final String name = accountData.getName();
+
+            view.navigateToChats(new Profile(id, name, email, ""));
+        }
+
+        @Override
+        public void onFailure(Call<AccountData> call, Throwable t) {
+            view.stopLoading();
+            view.showError("Oh no! We're unable to login at this time.");
+        }
+    };
 }
