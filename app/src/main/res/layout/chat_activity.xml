@@ -46,5 +46,10 @@ android:background="@android:color/white"
 
     </LinearLayout>
 
+    <include
+        android:id="@+id/chat_loading"
+        layout="@layout/loading_layout"
+        />
+
 
 </android.support.design.widget.CoordinatorLayout>

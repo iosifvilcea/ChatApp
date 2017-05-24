@@ -2,10 +2,12 @@ package blankthings.chatapp.utilities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Utils
@@ -28,9 +30,17 @@ public class Utils {
     }
 
 
-    public static String getTodaysFormattedDate() {
-        final String daysArray[] = {"Sun","Mon","Tues", "Wed","Thurs","Fri", "Sat"};
+    /**
+     * @param date - Desired date to be formatted
+     *               if Date is null, the date will be today's formatted date.
+     */
+    public static String getFormattedDate(@Nullable Date date) {
         final Calendar c = Calendar.getInstance();
+        if (date != null) {
+            c.setTime(date);
+        }
+
+        final String daysArray[] = {"Sun","Mon","Tues", "Wed","Thurs","Fri", "Sat"};
         final int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
         final int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
         return String.format("%s, %s", daysArray[dayOfWeek], String.valueOf(dayOfMonth));

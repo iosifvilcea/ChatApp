@@ -14,9 +14,9 @@ import android.widget.Toast;
 import java.util.List;
 
 import blankthings.chatapp.R;
+import blankthings.chatapp.api.models.chats.ChatMessage;
 import blankthings.chatapp.sections.chat.ChatContract;
 import blankthings.chatapp.sections.chat.ChatPresenterImpl;
-import blankthings.chatapp.sections.chats.ChatItem;
 import blankthings.chatapp.utilities.ToolbarController;
 import blankthings.chatapp.utilities.Utils;
 import butterknife.BindView;
@@ -41,6 +41,9 @@ public class ChatActivity extends AppCompatActivity implements ChatContract.Chat
 
     @BindView(R.id.chat_activity_recycler)
     RecyclerView recyclerView;
+
+    @BindView(R.id.chat_loading)
+    View loadingView;
 
     private ChatAdapter chatAdapter;
     private ChatPresenterImpl presenter;
@@ -70,9 +73,9 @@ public class ChatActivity extends AppCompatActivity implements ChatContract.Chat
         toolbarController.enableToolbarScroll(false);
         toolbarController.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final ChatItem chatItem = getIntent().getParcelableExtra(ChatItem.KEY);
-        if (chatItem != null) {
-            setTitle(chatItem.getUser());
+        final ChatMessage chatMessage = getIntent().getParcelableExtra(ChatMessage.KEY);
+        if (chatMessage != null) {
+            setTitle(chatMessage.getUser().getName());
         }
     }
 
@@ -120,13 +123,13 @@ public class ChatActivity extends AppCompatActivity implements ChatContract.Chat
 
     @Override
     public void startLoading() {
-        // TODO: 5/21/17
+        loadingView.setVisibility(View.VISIBLE);
     }
 
 
     @Override
     public void stopLoading() {
-        // TODO: 5/21/17
+        loadingView.setVisibility(View.GONE);
     }
 
 
@@ -143,14 +146,14 @@ public class ChatActivity extends AppCompatActivity implements ChatContract.Chat
 
 
     @Override
-    public void populateMessages(List<ChatItem> chatItems) {
-        chatAdapter.setMessages(chatItems);
+    public void populateMessages(List<ChatMessage> chatMessages) {
+        chatAdapter.setMessages(chatMessages);
     }
 
 
     @Override
-    public void populateMessage(ChatItem chatItem) {
-        chatAdapter.addMessage(chatItem);
+    public void populateMessage(ChatMessage chatMessage) {
+        chatAdapter.addMessage(chatMessage);
     }
 
 

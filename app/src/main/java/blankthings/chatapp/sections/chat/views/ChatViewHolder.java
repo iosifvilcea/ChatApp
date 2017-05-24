@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import blankthings.chatapp.R;
-import blankthings.chatapp.sections.chats.ChatItem;
+import blankthings.chatapp.api.models.chats.ChatMessage;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -28,8 +28,8 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
     }
 
 
-    public void bind(ChatItem chatItem) {
-        dateTextView.setText(chatItem.getDate());
-        messageText.setText(chatItem.getMessage());
+    public void bind(ChatMessage chatMessage) {
+        dateTextView.setText(chatMessage.getReadableDate());
+        messageText.setText(chatMessage.getMessage());
     }
 }

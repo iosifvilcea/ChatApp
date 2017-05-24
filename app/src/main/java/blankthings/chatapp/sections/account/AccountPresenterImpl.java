@@ -4,8 +4,8 @@ import android.text.TextUtils;
 
 import java.util.regex.Pattern;
 
-import blankthings.chatapp.api.AccountData;
 import blankthings.chatapp.api.ApiService;
+import blankthings.chatapp.api.models.account.Account;
 import blankthings.chatapp.sections.profile.Profile;
 import blankthings.chatapp.utilities.Utils;
 import okhttp3.Headers;
@@ -109,6 +109,7 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
     @Override
     public void createAccount(String email, String pass, String name) {
         view.startLoading();
+        apiService.createUser(email, pass, name, createCallback);
     }
 
 
@@ -130,35 +131,56 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
 
 
     /**
-     * Signin Callback
+     * SignIn Callback
      */
-    private Callback<AccountData> signinCallback = new Callback<AccountData>() {
-
+    private Callback<Account> signinCallback = new Callback<Account>() {
         @Override
-        public void onResponse(Call<AccountData> call, Response<AccountData> response) {
+        public void onResponse(Call<Account> call, Response<Account> response) {
             view.stopLoading();
-
-            final AccountData accountData = response.body();
-            final int id = accountData.getId();
-            final String email = accountData.getEmail();
-            final String name = accountData.getName();
-            final String authorization = getAuthorization(response);
-
-            profile = new Profile(id, name, email, authorization);
+            profile = getProfile(response);
             view.navigateToChats(profile);
         }
 
 
         @Override
-        public void onFailure(Call<AccountData> call, Throwable t) {
+        public void onFailure(Call<Account> call, Throwable t) {
             view.stopLoading();
             view.showError("Oh no! We're unable to login at this time.");
         }
+    };
 
 
-        String getAuthorization(Response<AccountData> response) {
-            Headers headers = response.headers();
-            return headers.get("Authorization");
+    /**
+     * CreateUser Callback
+     */
+    private Callback<Account> createCallback = new Callback<Account>() {
+        @Override
+        public void onResponse(Call<Account> call, Response<Account> response) {
+            view.stopLoading();
+            profile = getProfile(response);
+            view.navigateToChats(profile);
+        }
+
+        @Override
+        public void onFailure(Call<Account> call, Throwable t) {
+            view.stopLoading();
+            view.showError("Oh no! We're unable to login at this time.");
         }
     };
+
+
+    private Profile getProfile(Response<Account> response) {
+        final Account account = response.body();
+        final int id = account.getUser().getId();
+        final String email = account.getUser().getEmail();
+        final String name = account.getUser().getName();
+        final String authorization = getAuthorization(response);
+        return new Profile(id, name, email, authorization);
+    }
+
+
+    private String getAuthorization(Response<Account> response) {
+        Headers headers = response.headers();
+        return headers.get("Authorization");
+    }
 }

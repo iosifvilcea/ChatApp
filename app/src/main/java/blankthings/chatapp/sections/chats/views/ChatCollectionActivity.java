@@ -19,14 +19,13 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import blankthings.chatapp.R;
+import blankthings.chatapp.api.models.chats.ChatMessage;
 import blankthings.chatapp.sections.chat.views.ChatActivity;
 import blankthings.chatapp.sections.chats.ChatCollectionContract;
 import blankthings.chatapp.sections.chats.ChatCollectionPresenterImpl;
-import blankthings.chatapp.sections.chats.ChatItem;
 import blankthings.chatapp.sections.profile.Profile;
 import blankthings.chatapp.utilities.ToolbarController;
 import butterknife.BindView;
@@ -140,17 +139,6 @@ public class ChatCollectionActivity
         final DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
-
-        generateMockData();
-    }
-
-
-    private void generateMockData() {
-        List<ChatItem> list = new ArrayList<>();
-        list.add(new ChatItem(0, "Joe", "Hey dude, what's up?", "Thurs, 26", true));
-        list.add(new ChatItem(1, "Mom", "ok, see you soon!", "Thurs, 26", false));
-        list.add(new ChatItem(2, "Jen", "Hahha", "Friday, 27", true));
-        chatsAdapter.setChatItems(list);
     }
 
 
@@ -213,23 +201,23 @@ public class ChatCollectionActivity
 
 
     @Override
-    public void populateChats(List<ChatItem> chats) {
+    public void populateChats(List<ChatMessage> chats) {
         chatsAdapter.setChatItems(chats);
     }
 
 
     @Override
-    public void addChat(ChatItem chatItem) {
+    public void addChat(ChatMessage chatItem) {
         chatsAdapter.addChatItem(chatItem);
     }
 
 
     @Override
-    public void navigateToSelectedChat(final ChatItem chatItem) {
+    public void navigateToSelectedChat(final ChatMessage chatItem) {
         floatingActionButton.setVisibility(View.GONE);
 
         final Intent intent = new Intent(this, ChatActivity.class);
-        intent.putExtra(ChatItem.KEY, chatItem);
+        intent.putExtra(ChatMessage.KEY, chatItem);
         startActivity(intent);
     }
 
@@ -243,7 +231,7 @@ public class ChatCollectionActivity
     private final ChatCollectionAdapter.OnChatItemClickListener onChatItemClickListener =
             new ChatCollectionAdapter.OnChatItemClickListener() {
         @Override
-        public void onChatItemClicked(ChatItem childItem) {
+        public void onChatItemClicked(ChatMessage childItem) {
             chatsPresenter.chatSelected(childItem);
         }
     };

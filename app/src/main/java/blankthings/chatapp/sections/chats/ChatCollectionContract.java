@@ -3,6 +3,7 @@ package blankthings.chatapp.sections.chats;
 import java.util.List;
 
 import blankthings.chatapp.BaseContract;
+import blankthings.chatapp.api.models.chats.ChatMessage;
 
 /**
  * Created by iosif on 5/20/17.
@@ -16,7 +17,7 @@ public class ChatCollectionContract {
 
         void createChat(String name, String message);
 
-        void chatSelected(ChatItem chatItem);
+        void chatSelected(ChatMessage chatItem);
 
         void logoutClicked();
 
@@ -25,11 +26,11 @@ public class ChatCollectionContract {
 
     public interface ChatCollectionView extends BaseContract.BaseView {
 
-        void populateChats(List<ChatItem> chats);
+        void populateChats(List<ChatMessage> chats);
 
-        void addChat(ChatItem chatItem);
+        void addChat(ChatMessage chatItem);
 
-        void navigateToSelectedChat(ChatItem chatItem);
+        void navigateToSelectedChat(ChatMessage chatItem);
 
     }
 

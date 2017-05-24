@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import blankthings.chatapp.R;
-import blankthings.chatapp.sections.chats.ChatItem;
+import blankthings.chatapp.api.models.chats.ChatMessage;
 
 /**
  * Created by iosif on 5/20/17.
@@ -20,7 +20,7 @@ public class ChatCollectionAdapter extends RecyclerView.Adapter<ChatCollectionVi
 
     public static final String TAG = ChatCollectionAdapter.class.getSimpleName();
 
-    private List<ChatItem> chatItems = new ArrayList<>();
+    private List<ChatMessage> chatItems = new ArrayList<>();
     private OnChatItemClickListener onItemClickListener;
 
 
@@ -29,7 +29,7 @@ public class ChatCollectionAdapter extends RecyclerView.Adapter<ChatCollectionVi
     }
 
 
-    public void setChatItems(List<ChatItem> chatItems) {
+    public void setChatItems(List<ChatMessage> chatItems) {
         if (chatItems == null || chatItems.isEmpty()) {
             return;
         }
@@ -40,7 +40,7 @@ public class ChatCollectionAdapter extends RecyclerView.Adapter<ChatCollectionVi
     }
 
 
-    public void addChatItem(ChatItem chatItem) {
+    public void addChatItem(ChatMessage chatItem) {
         if (chatItem == null) {
             return;
         }
@@ -73,6 +73,6 @@ public class ChatCollectionAdapter extends RecyclerView.Adapter<ChatCollectionVi
 
 
     public interface OnChatItemClickListener {
-        void onChatItemClicked(ChatItem childItem);
+        void onChatItemClicked(ChatMessage childItem);
     }
 }
