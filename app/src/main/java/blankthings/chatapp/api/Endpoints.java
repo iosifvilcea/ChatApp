@@ -2,11 +2,14 @@ package blankthings.chatapp.api;
 
 import blankthings.chatapp.api.models.account.Account;
 import blankthings.chatapp.api.models.chats.Chat;
+import blankthings.chatapp.api.models.chats.ChatMessage;
+import blankthings.chatapp.api.models.chats.Messages;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -33,7 +36,21 @@ public interface Endpoints {
 
     @GET("chats")
     Call<Chat> chats(@Header("Authorization") String header,
-                            @Query("page") Integer page,
-                            @Query("limit") Integer limit);
+                     @Query("page") Integer page,
+                     @Query("limit") Integer limit);
+
+
+    @GET("chats/{chatId}/chat_messages")
+    Call<Messages> chatMessages(@Header("Authorization") String header,
+                                @Path("chatId") Integer chatId,
+                                @Query("page") Integer page,
+                                @Query("limit") Integer limit);
+
+
+    @POST("chats/{chatId}/chat_messages")
+    Call<ChatMessage> sendMessage(@Header("Authorization") String header,
+                                  @Path("chatId") Integer chatId,
+                                  @Body String body);
+
 
 }

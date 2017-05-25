@@ -10,6 +10,8 @@ import java.util.Map;
 
 import blankthings.chatapp.api.models.account.Account;
 import blankthings.chatapp.api.models.chats.Chat;
+import blankthings.chatapp.api.models.chats.ChatMessage;
+import blankthings.chatapp.api.models.chats.Messages;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -93,8 +95,23 @@ public class ApiService {
     }
 
 
-    public void fetchChats(final String auth, Callback<Chat> callback) {
-        make().chats(auth, 1, 50)
+    public void fetchChats(final String auth, final int page, final int pageLimit, Callback<Chat> callback) {
+        make().chats(auth, page, pageLimit)
                 .enqueue(callback);
+    }
+
+
+    public void fetchChatMessages(final String auth, final int chatId,
+                                  final int page, final int pageLimit, Callback<Messages> callback) {
+        make().chatMessages(auth, chatId, page, pageLimit)
+                .enqueue(callback);
+    }
+
+
+    public void sendMessage(final String message, final String auth, final int chatId, final Callback<ChatMessage> callback) {
+        final Map<String, String> map = new HashMap<>();
+        map.put("message", message);
+        final String body = gson.toJson(map);
+        make().sendMessage(auth, chatId, body);
     }
 }

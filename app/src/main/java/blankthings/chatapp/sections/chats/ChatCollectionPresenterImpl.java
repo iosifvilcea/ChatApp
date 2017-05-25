@@ -59,7 +59,7 @@ public class ChatCollectionPresenterImpl
     @Override
     public void fetchChats() {
         view.startLoading();
-        apiService.fetchChats(profile.getAuth(), chatListCallback);
+        apiService.fetchChats(profile.getAuth(), 1, 50, chatListCallback);
     }
 
 
@@ -84,20 +84,24 @@ public class ChatCollectionPresenterImpl
     }
 
 
+    private List<ChatMessage> parseMessages(final Response<Chat> response) {
+        final Chat chat = response.body();
+        lastRetrievedChatData = chat.getData();
+
+        final List<ChatMessage> messages = new ArrayList<>();
+        for (UserData userData : chat.getData()) {
+            messages.add(userData.getChatMessage());
+        }
+
+        return messages;
+    }
+
+
     private Callback<Chat> chatListCallback = new Callback<Chat>() {
         @Override
         public void onResponse(Call<Chat> call, Response<Chat> response) {
             view.stopLoading();
-
-            final Chat chat = response.body();
-            lastRetrievedChatData = chat.getData();
-            List<ChatMessage> messages = new ArrayList<>();
-            for (UserData userData : chat.getData()) {
-                messages.add(userData.getChatMessage());
-            }
-
-            view.populateChats(messages);
-
+            view.populateChats(parseMessages(response));
         }
 
         @Override

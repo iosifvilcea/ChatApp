@@ -37,7 +37,6 @@ public class Chat implements Parcelable {
         return data.get(0).getEmail();
     }
 
-
     public void setData(List<UserData> data) {
         this.data = data;
     }

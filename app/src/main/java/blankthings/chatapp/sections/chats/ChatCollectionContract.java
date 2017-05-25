@@ -17,7 +17,7 @@ public class ChatCollectionContract {
 
         void createChat(String name, String message);
 
-        void chatSelected(ChatMessage chatItem);
+        void chatSelected(ChatMessage chatMessage);
 
         void logoutClicked();
 
@@ -28,9 +28,9 @@ public class ChatCollectionContract {
 
         void populateChats(List<ChatMessage> chats);
 
-        void addChat(ChatMessage chatItem);
+        void addChat(ChatMessage chatMessage);
 
-        void navigateToSelectedChat(ChatMessage chatItem);
+        void navigateToSelectedChat(ChatMessage selectedChatItem);
 
     }
 

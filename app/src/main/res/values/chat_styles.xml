@@ -10,6 +10,15 @@
         <item name="android:background">@drawable/chat_incoming_bubble_shape</item>
     </style>
 
+    <style name="InBoundChatBubbleText" parent="AppTheme">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">180dip</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginLeft">25dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 
     <style name="OutBoundChatBubble" parent="AppTheme">
         <item name="android:layout_gravity">center|right</item>
@@ -18,6 +27,16 @@
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:layout_marginBottom">5dp</item>
         <item name="android:background">@drawable/chat_outgoing_bubble_shape</item>
+    </style>
+
+    <style name="OutBoundChatBubbleText" parent="AppTheme">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">180dip</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

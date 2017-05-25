@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    >
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/chat_activity_recycler"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"
+        />
+
+    <include
+        android:id="@+id/chat_activity_comment_view"
+        layout="@layout/chat_create_dialog"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        />
+
+</LinearLayout>

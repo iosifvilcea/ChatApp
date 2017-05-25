@@ -7,16 +7,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import blankthings.chatapp.R;
 import blankthings.chatapp.api.models.chats.ChatMessage;
 import blankthings.chatapp.sections.chat.ChatContract;
 import blankthings.chatapp.sections.chat.ChatPresenterImpl;
+import blankthings.chatapp.sections.profile.Profile;
 import blankthings.chatapp.utilities.ToolbarController;
 import blankthings.chatapp.utilities.Utils;
 import butterknife.BindView;
@@ -30,6 +35,8 @@ import static android.view.View.GONE;
 
 public class ChatActivity extends AppCompatActivity implements ChatContract.ChatView {
 
+    private static final String CHAT_MSG_KEY = "CHAT_MESSAGES_KEY";
+
     @BindView(R.id.chat_create_name_edit_text)
     EditText nameEditText;
 
@@ -42,28 +49,42 @@ public class ChatActivity extends AppCompatActivity implements ChatContract.Chat
     @BindView(R.id.chat_activity_recycler)
     RecyclerView recyclerView;
 
-    @BindView(R.id.chat_loading)
+    @BindView(R.id.loading)
     View loadingView;
 
     private ChatAdapter chatAdapter;
     private ChatPresenterImpl presenter;
     public ToolbarController toolbarController;
+    private ArrayList<ChatMessage> messages;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.chat_activity);
+        setContentView(R.layout.base_layout);
+        final LayoutInflater inflater = LayoutInflater.from(this);
+        inflater.inflate(R.layout.chat_activity_layout, (FrameLayout)findViewById(R.id.content));
 
         ButterKnife.bind(this);
         setupToolbar();
         setupViews();
         setupRecyclerView();
-        setupPresenter();
+
+        final Profile profile = getIntent().getParcelableExtra(Profile.KEY);
+        final ChatMessage selectedMessage = getIntent().getParcelableExtra(ChatMessage.KEY);
+        setupPresenter(profile, selectedMessage);
 
         if (savedInstanceState != null) {
-            // TODO: 5/21/17
+            messages = savedInstanceState.getParcelableArrayList(CHAT_MSG_KEY);
+            populateMessages(messages);
         }
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(CHAT_MSG_KEY, messages);
     }
 
 
@@ -116,20 +137,37 @@ public class ChatActivity extends AppCompatActivity implements ChatContract.Chat
     }
 
 
-    private void setupPresenter() {
-        presenter = new ChatPresenterImpl(this);
+    private void setupPresenter(final Profile profile, final ChatMessage chatMessage) {
+        presenter = new ChatPresenterImpl(this, profile, chatMessage);
     }
 
 
     @Override
     public void startLoading() {
+        loadingView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                /** Intentionally Block UI while loading. */
+            }});
         loadingView.setVisibility(View.VISIBLE);
     }
 
 
     @Override
     public void stopLoading() {
+        loadingView.setOnClickListener(null);
         loadingView.setVisibility(View.GONE);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

@@ -35,7 +35,7 @@ public class LoginActivity
     private AccountContract.AccountPresenter presenter;
     private boolean isLoginState = true;
 
-    private View loadingView;
+    @BindView(R.id.loading) View loadingView;
 
     @BindView(R.id.account_name_text_input) TextInputLayout nameTextInput;
     @BindView(R.id.account_name_edit_text) EditText nameEditText;
@@ -89,20 +89,6 @@ public class LoginActivity
         final FrameLayout container = (FrameLayout) findViewById(R.id.content);
         final LayoutInflater inflater = LayoutInflater.from(this);
         inflater.inflate(R.layout.login_activity, container);
-
-        loadingView = inflater.inflate(R.layout.loading_layout, null);
-        container.addView(loadingView);
-
-        loadingView.setVisibility(View.GONE);
-        loadingView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /**
-                 * Prevents user from interacting with the rest of the app
-                 *    when loading view is visible.
-                 */
-            }
-        });
     }
 
 
@@ -145,12 +131,19 @@ public class LoginActivity
 
     @Override
     public void startLoading() {
+        loadingView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /** Intentionally block UI while loading. */
+            }
+        });
         loadingView.setVisibility(View.VISIBLE);
     }
 
 
     @Override
     public void stopLoading() {
+        loadingView.setOnClickListener(null);
         loadingView.setVisibility(View.GONE);
     }
 

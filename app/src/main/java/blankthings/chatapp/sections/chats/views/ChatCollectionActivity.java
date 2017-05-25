@@ -42,8 +42,14 @@ public class ChatCollectionActivity
 
     public static final String TAG = ChatCollectionActivity.class.getSimpleName();
 
-    @BindView(R.id.content) FrameLayout content;
-    @BindView(R.id.fab) FloatingActionButton floatingActionButton;
+    @BindView(R.id.content)
+    FrameLayout content;
+
+    @BindView(R.id.fab)
+    FloatingActionButton floatingActionButton;
+
+    @BindView(R.id.loading)
+    View loadingView;
 
     private AlertDialog dialog;
 
@@ -51,6 +57,7 @@ public class ChatCollectionActivity
     private ChatCollectionPresenterImpl chatsPresenter;
 
     public ToolbarController toolbarController;
+    private Profile profile;
 
 
     @Override
@@ -117,8 +124,7 @@ public class ChatCollectionActivity
 
     private void setupPresenter() {
         final Bundle bundle = getIntent().getExtras();
-        Profile profile = (Profile) bundle.get(Profile.KEY);
-
+        profile = (Profile) bundle.get(Profile.KEY);
         chatsPresenter = new ChatCollectionPresenterImpl(this, profile);
     }
 
@@ -184,13 +190,18 @@ public class ChatCollectionActivity
 
     @Override
     public void startLoading() {
-        // TODO: 5/20/17
+        loadingView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                /** Intentionally block UI while loading. */
+            }});
+        loadingView.setVisibility(View.VISIBLE);
     }
 
 
     @Override
     public void stopLoading() {
-        // TODO: 5/20/17
+        loadingView.setOnClickListener(null);
+        loadingView.setVisibility(View.GONE);
     }
 
 
@@ -207,17 +218,18 @@ public class ChatCollectionActivity
 
 
     @Override
-    public void addChat(ChatMessage chatItem) {
-        chatsAdapter.addChatItem(chatItem);
+    public void addChat(ChatMessage chatMessage) {
+        chatsAdapter.addChatItem(chatMessage);
     }
 
 
     @Override
-    public void navigateToSelectedChat(final ChatMessage chatItem) {
+    public void navigateToSelectedChat(final ChatMessage message) {
         floatingActionButton.setVisibility(View.GONE);
 
         final Intent intent = new Intent(this, ChatActivity.class);
-        intent.putExtra(ChatMessage.KEY, chatItem);
+        intent.putExtra(Profile.KEY, profile);
+        intent.putExtra(ChatMessage.KEY, message);
         startActivity(intent);
     }
 

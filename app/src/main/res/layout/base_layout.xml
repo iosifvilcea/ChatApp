@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:theme="@style/ToolbarColor"
             app:layout_scrollFlags="scroll|snap"/>
 
     </android.support.design.widget.AppBarLayout>
@@ -34,6 +35,11 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
 
+    <include
+        android:id="@+id/loading"
+        android:visibility="gone"
+        layout="@layout/loading_layout"
+        />
 
     <!--
      - Floating Button

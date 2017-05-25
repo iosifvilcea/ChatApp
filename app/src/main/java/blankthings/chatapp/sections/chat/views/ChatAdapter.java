@@ -18,8 +18,8 @@ import blankthings.chatapp.api.models.chats.ChatMessage;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolder> {
 
-    private final static int TYPE_OUTBOUND = 0;
-    private final static int TYPE_INBOUND = 1;
+    private final static int TYPE_OUTBOUND = 1;
+    private final static int TYPE_INBOUND = 2;
 
     private List<ChatMessage> messages;
 
@@ -52,8 +52,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        final boolean isMessageBeingSentOut = messages.get(position).isOutBound();
-        return (isMessageBeingSentOut) ? TYPE_OUTBOUND : TYPE_INBOUND;
+        final Integer isOutBound = messages.get(position).getUserId();
+        return (isOutBound == TYPE_OUTBOUND) ? TYPE_OUTBOUND : TYPE_INBOUND;
     }
 
 
