@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import blankthings.chatapp.R;
+import blankthings.chatapp.api.models.account.Profile;
 import blankthings.chatapp.api.models.chats.ChatMessage;
 import blankthings.chatapp.sections.chat.ChatContract;
 import blankthings.chatapp.sections.chat.ChatPresenterImpl;
-import blankthings.chatapp.sections.profile.Profile;
 import blankthings.chatapp.utilities.ToolbarController;
 import blankthings.chatapp.utilities.Utils;
 import butterknife.BindView;

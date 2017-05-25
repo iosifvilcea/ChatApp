@@ -1,10 +1,10 @@
-package blankthings.chatapp.sections.profile;
+package blankthings.chatapp.api.models.account;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by iosif on 5/20/17.
+ * Created by iosif on 5/25/17.
  */
 
 public class Profile implements Parcelable {
@@ -17,6 +17,7 @@ public class Profile implements Parcelable {
 
     /** Stored here for convenience */
     private String auth;
+
 
     private Profile() {}
 
@@ -37,21 +38,17 @@ public class Profile implements Parcelable {
     }
 
 
-
     public int getId() {
         return id;
     }
-
 
     public String getName() {
         return name;
     }
 
-
     public String getEmail() {
         return email;
     }
-
 
     public String getAuth() {
         return auth;
@@ -66,22 +63,22 @@ public class Profile implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.auth);
         dest.writeInt(this.id);
         dest.writeString(this.name);
         dest.writeString(this.email);
+        dest.writeString(this.auth);
     }
 
 
     protected Profile(Parcel in) {
-        this.auth = in.readString();
         this.id = in.readInt();
         this.name = in.readString();
         this.email = in.readString();
+        this.auth = in.readString();
     }
 
 
-    public static final Creator<Profile> CREATOR = new Creator<Profile>() {
+    public static final Parcelable.Creator<Profile> CREATOR = new Parcelable.Creator<Profile>() {
         @Override
         public Profile createFromParcel(Parcel source) {
             return new Profile(source);

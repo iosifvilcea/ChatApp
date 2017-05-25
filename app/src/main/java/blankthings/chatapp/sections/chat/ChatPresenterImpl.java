@@ -3,9 +3,9 @@ package blankthings.chatapp.sections.chat;
 import android.util.Log;
 
 import blankthings.chatapp.api.ApiService;
+import blankthings.chatapp.api.models.account.Profile;
 import blankthings.chatapp.api.models.chats.ChatMessage;
 import blankthings.chatapp.api.models.chats.Messages;
-import blankthings.chatapp.sections.profile.Profile;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,10 +22,15 @@ public class ChatPresenterImpl implements ChatContract.ChatPresenter {
     private Profile profile;
     private ChatMessage selectedMessage;
 
-    public ChatPresenterImpl(final ChatContract.ChatView view, final Profile profile, final ChatMessage chatMessage) {
+    public ChatPresenterImpl(final ChatContract.ChatView view, final Profile profile, final ChatMessage message) {
         apiService = new ApiService();
         this.profile = profile;
-        this.selectedMessage = chatMessage;
+        this.selectedMessage = message;
+        if (message.isOutBound()) {
+            this.selectedMessage.setId(1);
+            this.selectedMessage.setChatId(1);
+        }
+
         onAttach(view);
         start();
     }
@@ -59,13 +64,14 @@ public class ChatPresenterImpl implements ChatContract.ChatPresenter {
 
     @Override
     public void sendMessage(final String message) {
-        Log.e(ChatPresenterImpl.class.getSimpleName(), message);
         apiService.sendMessage(message, profile.getAuth(), selectedMessage.getChatId(),
                 new Callback<ChatMessage>() {
             @Override
             public void onResponse(Call<ChatMessage> call, Response<ChatMessage> response) {
                 // Success.
-                view.populateMessage(response.body());
+                final ChatMessage chatMessage = new ChatMessage();
+                chatMessage.setMessage(message);
+                view.populateMessage(chatMessage);
             }
 
             @Override

@@ -16,10 +16,10 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import blankthings.chatapp.R;
+import blankthings.chatapp.api.models.account.Profile;
 import blankthings.chatapp.sections.account.AccountContract;
 import blankthings.chatapp.sections.account.AccountPresenterImpl;
 import blankthings.chatapp.sections.chats.views.ChatCollectionActivity;
-import blankthings.chatapp.sections.profile.Profile;
 import blankthings.chatapp.utilities.ToolbarController;
 import blankthings.chatapp.utilities.Utils;
 import butterknife.BindView;

@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import blankthings.chatapp.api.ApiService;
+import blankthings.chatapp.api.models.account.Profile;
 import blankthings.chatapp.api.models.chats.Chat;
 import blankthings.chatapp.api.models.chats.ChatMessage;
+import blankthings.chatapp.api.models.chats.User;
 import blankthings.chatapp.api.models.chats.UserData;
-import blankthings.chatapp.sections.profile.Profile;
 import blankthings.chatapp.utilities.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,9 +73,12 @@ public class ChatCollectionPresenterImpl
 
     @Override
     public void createChat(final String name, final String message) {
-        // TODO: 5/21/17 create chat request.
+        final ChatMessage chat = new ChatMessage();
+        chat.setUser(new User() {{ setName(name); }});
+        chat.setMessage(message);
+        chat.setOutBound(true);
 
-//        view.addChat(chatItem);
+        view.addChat(chat);
     }
 
 

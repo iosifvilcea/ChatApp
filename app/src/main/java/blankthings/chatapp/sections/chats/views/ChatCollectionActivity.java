@@ -22,11 +22,11 @@ import android.widget.Toast;
 import java.util.List;
 
 import blankthings.chatapp.R;
+import blankthings.chatapp.api.models.account.Profile;
 import blankthings.chatapp.api.models.chats.ChatMessage;
 import blankthings.chatapp.sections.chat.views.ChatActivity;
 import blankthings.chatapp.sections.chats.ChatCollectionContract;
 import blankthings.chatapp.sections.chats.ChatCollectionPresenterImpl;
-import blankthings.chatapp.sections.profile.Profile;
 import blankthings.chatapp.utilities.ToolbarController;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -243,8 +243,8 @@ public class ChatCollectionActivity
     private final ChatCollectionAdapter.OnChatItemClickListener onChatItemClickListener =
             new ChatCollectionAdapter.OnChatItemClickListener() {
         @Override
-        public void onChatItemClicked(ChatMessage childItem) {
-            chatsPresenter.chatSelected(childItem);
+        public void onChatItemClicked(ChatMessage chatMessage) {
+            chatsPresenter.chatSelected(chatMessage);
         }
     };
 }

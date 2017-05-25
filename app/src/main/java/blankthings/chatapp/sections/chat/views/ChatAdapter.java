@@ -52,8 +52,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        final Integer isOutBound = messages.get(position).getUserId();
-        return (isOutBound == TYPE_OUTBOUND) ? TYPE_OUTBOUND : TYPE_INBOUND;
+        final boolean isMessageBeingSentOut = messages.get(position).isOutBound();
+        return (isMessageBeingSentOut) ? TYPE_OUTBOUND : TYPE_INBOUND;
     }
 
 

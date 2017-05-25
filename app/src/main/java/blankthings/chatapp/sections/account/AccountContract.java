@@ -1,7 +1,7 @@
 package blankthings.chatapp.sections.account;
 
 import blankthings.chatapp.BaseContract;
-import blankthings.chatapp.sections.profile.Profile;
+import blankthings.chatapp.api.models.account.Profile;
 
 /**
  * Created by iosif on 5/20/17.

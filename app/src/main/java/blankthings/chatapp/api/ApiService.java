@@ -108,10 +108,12 @@ public class ApiService {
     }
 
 
-    public void sendMessage(final String message, final String auth, final int chatId, final Callback<ChatMessage> callback) {
+    public void sendMessage(final String message, final String auth, final int chatId,
+                            final Callback<ChatMessage> callback) {
         final Map<String, String> map = new HashMap<>();
         map.put("message", message);
         final String body = gson.toJson(map);
-        make().sendMessage(auth, chatId, body);
+        make().sendMessage(auth, chatId, body)
+                .enqueue(callback);
     }
 }

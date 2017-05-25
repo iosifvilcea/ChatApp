@@ -19,6 +19,7 @@ public class Account implements Parcelable {
     private User user;
 
     private Meta meta;
+
     private ApiError errors;
 
     public User getUser() {
@@ -51,6 +52,7 @@ public class Account implements Parcelable {
         return 0;
     }
 
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(this.user,flags);
@@ -58,14 +60,13 @@ public class Account implements Parcelable {
         dest.writeParcelable(this.errors, flags);
     }
 
-    public Account() {
-    }
 
     protected Account(Parcel in) {
         this.user = in.readParcelable(User.class.getClassLoader());
         this.meta = in.readParcelable(Meta.class.getClassLoader());
         this.errors = in.readParcelable(ApiError.class.getClassLoader());
     }
+
 
     public static final Parcelable.Creator<Account> CREATOR = new Parcelable.Creator<Account>() {
         @Override

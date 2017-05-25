@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 import blankthings.chatapp.api.ApiService;
 import blankthings.chatapp.api.models.account.Account;
-import blankthings.chatapp.sections.profile.Profile;
+import blankthings.chatapp.api.models.account.Profile;
 import blankthings.chatapp.utilities.Utils;
 import okhttp3.Headers;
 import retrofit2.Call;

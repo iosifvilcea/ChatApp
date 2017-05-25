@@ -31,7 +31,7 @@ public class ChatMessage implements Parcelable {
     private Integer chatId;
 
     @SerializedName("user_id")
-    private Integer UserId;
+    private Integer userId;
 
     @SerializedName("message")
     private String message;
@@ -53,7 +53,7 @@ public class ChatMessage implements Parcelable {
     }
 
     public Integer getUserId() {
-        return UserId;
+        return userId;
     }
 
     public String getMessage() {
@@ -66,6 +66,10 @@ public class ChatMessage implements Parcelable {
 
     public String getReadableDate() {
         Date date = Calendar.getInstance().getTime();
+        if (dateCreated == null) {
+            dateCreated = date.toString();
+        }
+
         try {
             final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             date = df.parse(dateCreated);
@@ -82,11 +86,35 @@ public class ChatMessage implements Parcelable {
     }
 
     public boolean isOutBound() {
-        return isOutBound;
+        return (userId == null || userId == 1);
     }
 
     public void setOutBound(boolean outBound) {
         isOutBound = outBound;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setChatId(Integer chatId) {
+        this.chatId = chatId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -100,7 +128,7 @@ public class ChatMessage implements Parcelable {
         dest.writeByte(this.isOutBound ? (byte) 1 : (byte) 0);
         dest.writeValue(this.id);
         dest.writeValue(this.chatId);
-        dest.writeValue(this.UserId);
+        dest.writeValue(this.userId);
         dest.writeString(this.message);
         dest.writeString(this.dateCreated);
         dest.writeParcelable(this.user, flags);
@@ -111,7 +139,7 @@ public class ChatMessage implements Parcelable {
         this.isOutBound = in.readByte() != 0;
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.chatId = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.UserId = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.userId = (Integer) in.readValue(Integer.class.getClassLoader());
         this.message = in.readString();
         this.dateCreated = in.readString();
         this.user = in.readParcelable(UserData.class.getClassLoader());
