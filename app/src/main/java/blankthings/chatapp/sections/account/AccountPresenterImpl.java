@@ -157,6 +157,11 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
         @Override
         public void onResponse(Call<Account> call, Response<Account> response) {
             view.stopLoading();
+            if (response.body() == null || response.body().getUser() == null) {
+                view.showError("Oh no! We're unable to create an account at this time.");
+                return;
+            }
+
             profile = getProfile(response);
             view.navigateToChats(profile);
         }
@@ -164,7 +169,7 @@ public class AccountPresenterImpl implements AccountContract.AccountPresenter {
         @Override
         public void onFailure(Call<Account> call, Throwable t) {
             view.stopLoading();
-            view.showError("Oh no! We're unable to login at this time.");
+            view.showError("Oh no! We're unable to create an account at this time.");
         }
     };
 

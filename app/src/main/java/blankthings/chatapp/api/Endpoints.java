@@ -30,7 +30,7 @@ public interface Endpoints {
     Call<Void> logout(@Header("Authorization") String header);
 
 
-    @POST("auth/users")
+    @POST("users")
     Call<Account> createUser(@Body String body);
 
 

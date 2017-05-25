@@ -84,10 +84,10 @@ public class ApiService {
     public void createUser(final String email, final String pass,
                            final String name, final Callback<Account> callback) {
         final Map<String, String> map = new HashMap<>();
+        map.put("name", name);
         map.put("email", email);
         map.put("password", pass);
         map.put("password_confirmation", pass);
-        map.put("name", name);
 
         final String body = gson.toJson(map);
         make().createUser(body)

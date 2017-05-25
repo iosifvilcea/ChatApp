@@ -96,14 +96,8 @@ public class LoginActivity
     public void onCreateAccountClicked() {
         if (isLoginState) {
             showCreateView();
-
         } else {
-            presenter.createButtonClicked(
-                    emailEditText.getText().toString(),
-                    passEditText.getText().toString(),
-                    passConfirmEditText.getText().toString(),
-                    nameEditText.getText().toString()
-            );
+            showLoginView();
         }
     }
 
@@ -118,7 +112,12 @@ public class LoginActivity
             );
 
         } else {
-            showLoginView();
+            presenter.createButtonClicked(
+                    emailEditText.getText().toString(),
+                    passEditText.getText().toString(),
+                    passConfirmEditText.getText().toString(),
+                    nameEditText.getText().toString()
+            );
         }
     }
 
@@ -238,13 +237,16 @@ public class LoginActivity
 
         nameTextInput.setVisibility(View.VISIBLE);
         passConfirmTextInput.setVisibility(View.VISIBLE);
+        nameEditText.requestFocus();
 
-        loginButton.setText(R.string.app_cancel);
-        loginButton.setTextColor(accent);
-        loginButton.setBackgroundColor(transparent);
+        loginButton.setText(R.string.account_button_create);
+        loginButton.setTextColor(white);
+        loginButton.setBackgroundColor(accent);
 
-        createButton.setTextColor(white);
-        createButton.setBackgroundColor(accent);
+        createButton.setText(R.string.app_cancel);
+        createButton.setTextColor(accent);
+        createButton.setBackgroundColor(transparent);
+
     }
 
 
